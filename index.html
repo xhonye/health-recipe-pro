@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,10 +8,11 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
-        
+
         body {
             font-family: 'Noto Sans SC', sans-serif;
-            background-color: #f0fdf4; /* green-50 */
+            background-color: #f0fdf4;
+            /* green-50 */
         }
 
         .glass-card {
@@ -28,32 +30,59 @@
         ::-webkit-scrollbar {
             width: 8px;
         }
+
         ::-webkit-scrollbar-track {
             background: #f1f1f1;
         }
+
         ::-webkit-scrollbar-thumb {
             background: #888;
             border-radius: 4px;
         }
+
         ::-webkit-scrollbar-thumb:hover {
             background: #555;
         }
 
-        .category-Protein { border-left: 4px solid #fca5a5; } /* Red */
-        .category-Carb { border-left: 4px solid #fde047; } /* Yellow */
-        .category-Veg { border-left: 4px solid #86efac; } /* Green */
-        .category-Fat { border-left: 4px solid #fdba74; } /* Orange */
+        .category-Protein {
+            border-left: 4px solid #fca5a5;
+        }
+
+        /* Red */
+        .category-Carb {
+            border-left: 4px solid #fde047;
+        }
+
+        /* Yellow */
+        .category-Veg {
+            border-left: 4px solid #86efac;
+        }
+
+        /* Green */
+        .category-Fat {
+            border-left: 4px solid #fdba74;
+        }
+
+        /* Orange */
 
         .fade-in {
             animation: fadeIn 0.5s ease-out forwards;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
+
 <body class="text-slate-800 min-h-screen flex flex-col relative pb-20">
 
     <!-- Header -->
@@ -62,19 +91,28 @@
             <h1 class="text-xl font-bold text-emerald-700 tracking-tight">HealthRecipe Pro</h1>
             <p class="text-xs text-slate-500">智能营养配餐助手</p>
         </div>
-        <button id="generateBtn" class="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2 rounded-full shadow-lg transition-transform active:scale-95 flex items-center gap-2 font-medium">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+        <button id="generateBtn"
+            class="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2 rounded-full shadow-lg transition-transform active:scale-95 flex items-center gap-2 font-medium">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
+                </path>
+            </svg>
             <span>生成食谱</span>
         </button>
     </header>
 
     <!-- Main Content -->
     <main class="container mx-auto px-4 py-8 max-w-5xl flex-grow">
-        
+
         <!-- Welcome State (Hidden after first generate) -->
         <div id="welcomeState" class="text-center py-20">
             <div class="text-emerald-200 mb-6">
-                <svg class="w-32 h-32 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                <svg class="w-32 h-32 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
+                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
+                    </path>
+                </svg>
             </div>
             <h2 class="text-2xl font-bold text-slate-700 mb-2">准备好开始了吗？</h2>
             <p class="text-slate-500">点击右上角按钮生成您的专属健康食谱</p>
@@ -84,7 +122,7 @@
         <div id="recipeGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 hidden">
             <!-- Cards will be injected here -->
         </div>
-        
+
         <!-- Summary Stats -->
         <div id="recipeSummary" class="hidden mt-8 p-6 bg-emerald-50 rounded-xl border border-emerald-100">
             <h3 class="font-bold text-emerald-800 mb-2">本餐营养概览</h3>
@@ -99,40 +137,57 @@
     </main>
 
     <!-- FAB: Settings -->
-    <button id="settingsBtn" class="fixed bottom-6 right-6 bg-slate-800 hover:bg-slate-700 text-white p-4 rounded-full shadow-xl transition-transform hover:rotate-90 z-40">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+    <button id="settingsBtn"
+        class="fixed bottom-6 right-6 bg-slate-800 hover:bg-slate-700 text-white p-4 rounded-full shadow-xl transition-transform hover:rotate-90 z-40">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z">
+            </path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z">
+            </path>
+        </svg>
     </button>
 
     <!-- Management Modal -->
     <div id="managementModal" class="fixed inset-0 z-50 hidden">
         <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" id="modalBackdrop"></div>
-        <div class="absolute right-0 top-0 bottom-0 w-full md:w-[600px] glass-modal shadow-2xl flex flex-col transform transition-transform duration-300 translate-x-full" id="modalPanel">
-            
+        <div class="absolute right-0 top-0 bottom-0 w-full md:w-[600px] glass-modal shadow-2xl flex flex-col transform transition-transform duration-300 translate-x-full"
+            id="modalPanel">
+
             <!-- Modal Header -->
             <div class="p-6 border-b border-gray-200 flex justify-between items-center bg-white/50">
                 <h2 class="text-2xl font-bold text-slate-800">数据管理面板</h2>
                 <button id="closeModalBtn" class="text-slate-400 hover:text-slate-600">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                        </path>
+                    </svg>
                 </button>
             </div>
 
             <!-- Scrollable Content -->
             <div class="flex-grow overflow-y-auto p-6 space-y-8">
-                
+
                 <!-- Add New Form -->
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-emerald-100">
                     <h3 class="text-lg font-bold text-emerald-800 mb-4 flex items-center gap-2">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
                         添加新食材
                     </h3>
                     <form id="addFoodForm" class="grid grid-cols-2 gap-4">
                         <div class="col-span-2 md:col-span-1">
                             <label class="block text-xs font-semibold text-slate-500 uppercase mb-1">名称</label>
-                            <input type="text" name="name" required class="w-full rounded-lg border-slate-200 focus:border-emerald-500 focus:ring-emerald-500 p-2 border" placeholder="如: 燕麦片">
+                            <input type="text" name="name" required
+                                class="w-full rounded-lg border-slate-200 focus:border-emerald-500 focus:ring-emerald-500 p-2 border"
+                                placeholder="如: 燕麦片">
                         </div>
                         <div class="col-span-2 md:col-span-1">
                             <label class="block text-xs font-semibold text-slate-500 uppercase mb-1">分类</label>
-                            <select name="category" required class="w-full rounded-lg border-slate-200 focus:border-emerald-500 focus:ring-emerald-500 p-2 border bg-white">
+                            <select name="category" required
+                                class="w-full rounded-lg border-slate-200 focus:border-emerald-500 focus:ring-emerald-500 p-2 border bg-white">
                                 <option value="Protein">蛋白质 (Protein)</option>
                                 <option value="Carb">碳水 (Carb)</option>
                                 <option value="Veg">蔬菜 (Veg)</option>
@@ -141,15 +196,20 @@
                         </div>
                         <div class="col-span-2 md:col-span-1">
                             <label class="block text-xs font-semibold text-slate-500 uppercase mb-1">主要营养素</label>
-                            <input type="text" name="nutrient" required class="w-full rounded-lg border-slate-200 focus:border-emerald-500 focus:ring-emerald-500 p-2 border" placeholder="如: 膳食纤维">
+                            <input type="text" name="nutrient" required
+                                class="w-full rounded-lg border-slate-200 focus:border-emerald-500 focus:ring-emerald-500 p-2 border"
+                                placeholder="如: 膳食纤维">
                         </div>
                         <div class="col-span-1">
                             <label class="block text-xs font-semibold text-slate-500 uppercase mb-1">含量 (每100g)</label>
-                            <input type="number" name="amount" required step="0.1" class="w-full rounded-lg border-slate-200 focus:border-emerald-500 focus:ring-emerald-500 p-2 border" placeholder="0">
+                            <input type="number" name="amount" required step="0.1"
+                                class="w-full rounded-lg border-slate-200 focus:border-emerald-500 focus:ring-emerald-500 p-2 border"
+                                placeholder="0">
                         </div>
                         <div class="col-span-1">
                             <label class="block text-xs font-semibold text-slate-500 uppercase mb-1">单位</label>
-                            <select name="unit" class="w-full rounded-lg border-slate-200 focus:border-emerald-500 focus:ring-emerald-500 p-2 border bg-white">
+                            <select name="unit"
+                                class="w-full rounded-lg border-slate-200 focus:border-emerald-500 focus:ring-emerald-500 p-2 border bg-white">
                                 <option value="g">g</option>
                                 <option value="mg">mg</option>
                                 <option value="mcg">mcg</option>
@@ -157,10 +217,13 @@
                         </div>
                         <div class="col-span-1">
                             <label class="block text-xs font-semibold text-slate-500 uppercase mb-1">NRV %</label>
-                            <input type="number" name="nrv" required class="w-full rounded-lg border-slate-200 focus:border-emerald-500 focus:ring-emerald-500 p-2 border" placeholder="0">
+                            <input type="number" name="nrv" required
+                                class="w-full rounded-lg border-slate-200 focus:border-emerald-500 focus:ring-emerald-500 p-2 border"
+                                placeholder="0">
                         </div>
                         <div class="col-span-2 mt-2">
-                            <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 rounded-lg transition-colors">保存并添加到库</button>
+                            <button type="submit"
+                                class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 rounded-lg transition-colors">保存并添加到库</button>
                         </div>
                     </form>
                 </div>
@@ -169,7 +232,8 @@
                 <div class="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
                     <div class="p-4 bg-slate-50 border-b border-slate-100 flex justify-between items-center">
                         <h3 class="font-bold text-slate-700">本地数据库存</h3>
-                        <span class="text-xs bg-slate-200 text-slate-600 px-2 py-1 rounded-full" id="dbCount">0 Items</span>
+                        <span class="text-xs bg-slate-200 text-slate-600 px-2 py-1 rounded-full" id="dbCount">0
+                            Items</span>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-sm text-left text-slate-600">
@@ -203,105 +267,76 @@
             Fat: { label: '油脂', color: 'bg-orange-50 text-orange-700' }
         };
 
-        const SEED_DATA = [
-            // 20 Proteins
-            { id: 'p1', name: "鸡胸肉", category: "Protein", nutrient: "优质蛋白", amount: 24, unit: "g", nrv: 40 },
-            { id: 'p2', name: "鸡蛋", category: "Protein", nutrient: "卵磷脂", amount: 13, unit: "g", nrv: 22 },
-            { id: 'p3', name: "瘦牛肉", category: "Protein", nutrient: "血红素铁", amount: 20, unit: "g", nrv: 33 },
-            { id: 'p4', name: "深海鳕鱼", category: "Protein", nutrient: "Omega-3", amount: 18, unit: "g", nrv: 30 },
-            { id: 'p5', name: "基围虾", category: "Protein", nutrient: "虾青素", amount: 18, unit: "g", nrv: 30 },
-            { id: 'p6', name: "北豆腐", category: "Protein", nutrient: "大豆异黄酮", amount: 12, unit: "g", nrv: 20 },
-            { id: 'p7', name: "三文鱼", category: "Protein", nutrient: "DHA", amount: 20, unit: "g", nrv: 33 },
-            { id: 'p8', name: "鸭胸肉", category: "Protein", nutrient: "B族维生素", amount: 15, unit: "g", nrv: 25 },
-            { id: 'p9', name: "羊腿肉", category: "Protein", nutrient: "肉碱", amount: 19, unit: "g", nrv: 31 },
-            { id: 'p10', name: "猪里脊", category: "Protein", nutrient: "维生素B1", amount: 20, unit: "g", nrv: 33 },
-            { id: 'p11', name: "鸡腿肉", category: "Protein", nutrient: "铁", amount: 16, unit: "g", nrv: 26 },
-            { id: 'p12', name: "扇贝", category: "Protein", nutrient: "锌", amount: 11, unit: "g", nrv: 18 },
-            { id: 'p13', name: "龙利鱼", category: "Protein", nutrient: "蛋白质", amount: 17, unit: "g", nrv: 28 },
-            { id: 'p14', name: "豆干", category: "Protein", nutrient: "钙", amount: 16, unit: "g", nrv: 26 },
-            { id: 'p15', name: "无糖酸奶", category: "Protein", nutrient: "益生菌", amount: 3, unit: "g", nrv: 5 },
-            { id: 'p16', name: "纯牛奶", category: "Protein", nutrient: "乳钙", amount: 3.2, unit: "g", nrv: 5 },
-            { id: 'p17', name: "鹌鹑蛋", category: "Protein", nutrient: "脑磷脂", amount: 13, unit: "g", nrv: 22 },
-            { id: 'p18', name: "蛤蜊", category: "Protein", nutrient: "硒", amount: 7, unit: "g", nrv: 12 },
-            { id: 'p19', name: "牡蛎", category: "Protein", nutrient: "锌", amount: 9, unit: "g", nrv: 15 },
-            { id: 'p20', name: "黑豆", category: "Protein", nutrient: "花青素", amount: 36, unit: "g", nrv: 60 },
+        // CSV Parsing Logic
+        function parseCSV(csvText) {
+            const lines = csvText.trim().split('\n');
+            const headers = lines[0].trim().split(',');
+            const data = [];
 
-            // 20 Carbs
-            { id: 'c1', name: "糙米", category: "Carb", nutrient: "膳食纤维", amount: 3, unit: "g", nrv: 12 },
-            { id: 'c2', name: "燕麦片", category: "Carb", nutrient: "β-葡聚糖", amount: 10, unit: "g", nrv: 40 },
-            { id: 'c3', name: "紫薯", category: "Carb", nutrient: "花青素", amount: 2.5, unit: "g", nrv: 10 },
-            { id: 'c4', name: "甜玉米", category: "Carb", nutrient: "玉米黄质", amount: 4, unit: "g", nrv: 16 },
-            { id: 'c5', name: "红薯", category: "Carb", nutrient: "胡萝卜素", amount: 3, unit: "g", nrv: 12 },
-            { id: 'c6', name: "荞麦面", category: "Carb", nutrient: "芦丁", amount: 6, unit: "g", nrv: 24 },
-            { id: 'c7', name: "全麦面包", category: "Carb", nutrient: "B族维生素", amount: 6, unit: "g", nrv: 24 },
-            { id: 'c8', name: "土豆", category: "Carb", nutrient: "钾", amount: 2, unit: "g", nrv: 8 },
-            { id: 'c9', name: "铁棍山药", category: "Carb", nutrient: "黏蛋白", amount: 2, unit: "g", nrv: 8 },
-            { id: 'c10', name: "三色藜麦", category: "Carb", nutrient: "全蛋白", amount: 14, unit: "g", nrv: 23 },
-            { id: 'c11', name: "小米", category: "Carb", nutrient: "铁", amount: 3, unit: "g", nrv: 12 },
-            { id: 'c12', name: "意大利面", category: "Carb", nutrient: "低GI", amount: 13, unit: "g", nrv: 22 },
-            { id: 'c13', name: "鹰嘴豆", category: "Carb", nutrient: "叶酸", amount: 19, unit: "g", nrv: 31 },
-            { id: 'c14', name: "红豆", category: "Carb", nutrient: "铁", amount: 20, unit: "g", nrv: 33 },
-            { id: 'c15', name: "绿豆", category: "Carb", nutrient: "钾", amount: 21, unit: "g", nrv: 35 },
-            { id: 'c16', name: "莲藕", category: "Carb", nutrient: "维生素C", amount: 2, unit: "g", nrv: 8 },
-            { id: 'c17', name: "芋头", category: "Carb", nutrient: "氟", amount: 2, unit: "g", nrv: 8 },
-            { id: 'c18', name: "贝贝南瓜", category: "Carb", nutrient: "果胶", amount: 5, unit: "g", nrv: 20 },
-            { id: 'c19', name: "杂粮饭", category: "Carb", nutrient: "膳食纤维", amount: 4, unit: "g", nrv: 16 },
-            { id: 'c20', name: "全麦吐司", category: "Carb", nutrient: "复合碳水", amount: 45, unit: "g", nrv: 15 },
-
-            // 20 Veggies
-            { id: 'v1', name: "西蓝花", category: "Veg", nutrient: "萝卜硫素", amount: 3, unit: "g", nrv: 12 },
-            { id: 'v2', name: "菠菜", category: "Veg", nutrient: "叶黄素", amount: 2, unit: "g", nrv: 8 },
-            { id: 'v3', name: "罗马生菜", category: "Veg", nutrient: "维生素K", amount: 1, unit: "g", nrv: 4 },
-            { id: 'v4', name: "大番茄", category: "Veg", nutrient: "番茄红素", amount: 1, unit: "g", nrv: 4 },
-            { id: 'v5', name: "黄瓜", category: "Veg", nutrient: "丙醇二酸", amount: 0.5, unit: "g", nrv: 2 },
-            { id: 'v6', name: "胡萝卜", category: "Veg", nutrient: "β-胡萝卜素", amount: 2, unit: "g", nrv: 8 },
-            { id: 'v7', name: "西芹", category: "Veg", nutrient: "芹菜素", amount: 1.5, unit: "g", nrv: 6 },
-            { id: 'v8', name: "绿芦笋", category: "Veg", nutrient: "天冬酰胺", amount: 2, unit: "g", nrv: 8 },
-            { id: 'v9', name: "茄子", category: "Veg", nutrient: "维生素P", amount: 1, unit: "g", nrv: 4 },
-            { id: 'v10', name: "大白菜", category: "Veg", nutrient: "维生素C", amount: 1, unit: "g", nrv: 4 },
-            { id: 'v11', name: "苦瓜", category: "Veg", nutrient: "苦瓜苷", amount: 1, unit: "g", nrv: 4 },
-            { id: 'v12', name: "丝瓜", category: "Veg", nutrient: "干扰素诱生剂", amount: 0.8, unit: "g", nrv: 3 },
-            { id: 'v13', name: "绿豆芽", category: "Veg", nutrient: "维生素C", amount: 1, unit: "g", nrv: 4 },
-            { id: 'v14', name: "鲜香菇", category: "Veg", nutrient: "香菇多糖", amount: 3, unit: "g", nrv: 12 },
-            { id: 'v15', name: "金针菇", category: "Veg", nutrient: "赖氨酸", amount: 2, unit: "g", nrv: 8 },
-            { id: 'v16', name: "黑木耳", category: "Veg", nutrient: "木耳多糖", amount: 5, unit: "g", nrv: 20 },
-            { id: 'v17', name: "海带", category: "Veg", nutrient: "碘", amount: 2, unit: "g", nrv: 8 },
-            { id: 'v18', name: "紫甘蓝", category: "Veg", nutrient: "花青素", amount: 3, unit: "g", nrv: 12 },
-            { id: 'v19', name: "西葫芦", category: "Veg", nutrient: "葫芦巴碱", amount: 0.5, unit: "g", nrv: 2 },
-            { id: 'v20', name: "青椒", category: "Veg", nutrient: "维生素C", amount: 60, unit: "mg", nrv: 60 },
-
-            // 20 Fats
-            { id: 'f1', name: "特级初榨橄榄油", category: "Fat", nutrient: "单不饱和脂肪酸", amount: 14, unit: "g", nrv: 24 },
-            { id: 'f2', name: "亚麻籽油", category: "Fat", nutrient: "α-亚麻酸", amount: 50, unit: "g", nrv: 80 },
-            { id: 'f3', name: "原味核桃仁", category: "Fat", nutrient: "磷脂", amount: 15, unit: "g", nrv: 25 },
-            { id: 'f4', name: "巴旦木", category: "Fat", nutrient: "维生素E", amount: 20, unit: "g", nrv: 33 },
-            { id: 'f5', name: "牛油果", category: "Fat", nutrient: "膳食纤维", amount: 15, unit: "g", nrv: 25 },
-            { id: 'f6', name: "熟黑芝麻", category: "Fat", nutrient: "钙", amount: 18, unit: "g", nrv: 30 },
-            { id: 'f7', name: "纯芝麻酱", category: "Fat", nutrient: "钙", amount: 50, unit: "g", nrv: 80 },
-            { id: 'f8', name: "无糖花生酱", category: "Fat", nutrient: "白藜芦醇", amount: 40, unit: "g", nrv: 60 },
-            { id: 'f9', name: "南瓜子", category: "Fat", nutrient: "锌", amount: 30, unit: "g", nrv: 50 },
-            { id: 'f10', name: "葵花籽仁", category: "Fat", nutrient: "亚油酸", amount: 45, unit: "g", nrv: 75 },
-            { id: 'f11', name: "奇亚籽", category: "Fat", nutrient: "Omega-3", amount: 30, unit: "g", nrv: 50 },
-            { id: 'f12', name: "腰果", category: "Fat", nutrient: "铁", amount: 20, unit: "g", nrv: 33 },
-            { id: 'f13', name: "开心果", category: "Fat", nutrient: "精氨酸", amount: 20, unit: "g", nrv: 33 },
-            { id: 'f14', name: "夏威夷果", category: "Fat", nutrient: "棕榈油酸", amount: 75, unit: "g", nrv: 100 },
-            { id: 'f15', name: "冷榨椰子油", category: "Fat", nutrient: "月桂酸", amount: 90, unit: "g", nrv: 100 },
-            { id: 'f16', name: "芥花油", category: "Fat", nutrient: "低饱和脂肪", amount: 6, unit: "g", nrv: 10 },
-            { id: 'f17', name: "草饲黄油", category: "Fat", nutrient: "共轭亚油酸", amount: 80, unit: "g", nrv: 100 },
-            { id: 'f18', name: "猪板油", category: "Fat", nutrient: "维生素D", amount: 90, unit: "g", nrv: 100 },
-            { id: 'f19', name: "低脂蛋黄酱", category: "Fat", nutrient: "风味脂肪", amount: 30, unit: "g", nrv: 40 },
-            { id: 'f20', name: "深海鱼油", category: "Fat", nutrient: "EPA/DHA", amount: 90, unit: "g", nrv: 100 }
-        ];
+            for (let i = 1; i < lines.length; i++) {
+                // Handle potential \r
+                const currentLine = lines[i].trim().split(',');
+                if (currentLine.length === headers.length) {
+                    const obj = {};
+                    for (let j = 0; j < headers.length; j++) {
+                        let value = currentLine[j].trim();
+                        // Type conversion
+                        if (headers[j] === 'amount' || headers[j] === 'nrv') {
+                            value = parseFloat(value);
+                        }
+                        obj[headers[j]] = value;
+                    }
+                    data.push(obj);
+                }
+            }
+            return data;
+        }
 
         // --- 2. State & Persistence ---
-        function initStorage() {
-            const data = localStorage.getItem('foodDatabase');
-            if (!data) {
-                console.log('Initializing seed data...');
-                localStorage.setItem('foodDatabase', JSON.stringify(SEED_DATA));
-                return SEED_DATA;
+        async function initStorage() {
+            let csvData = [];
+            try {
+                console.log('Syncing CSV data...');
+                // Add timestamp to bypass browser cache
+                const response = await fetch(`data/foods.csv?t=${new Date().getTime()}`);
+                if (response.ok) {
+                    const text = await response.text();
+                    csvData = parseCSV(text);
+                } else {
+                    console.error('Failed to fetch CSV');
+                }
+            } catch (e) {
+                console.error('Error fetching CSV:', e);
             }
-            return JSON.parse(data);
+
+            if (csvData.length === 0) {
+                alert('警告：无法加载 data/foods.csv。如果您是直接双击打开 index.html，请改用本地服务器 (localhost) 运行，否则浏览器会拦截数据读取。');
+                // Fallback to avoid wiping out data if fetch fails
+                const localJSON = localStorage.getItem('foodDatabase');
+                if (localJSON) return JSON.parse(localJSON);
+                return [];
+            }
+
+            const localJSON = localStorage.getItem('foodDatabase');
+            let localData = localJSON ? JSON.parse(localJSON) : [];
+
+            // Merge Strategy:
+            // 1. Create a map of CSV items (System of Record).
+            const mergedMap = new Map();
+            csvData.forEach(item => mergedMap.set(item.id, item));
+
+            // 2. Add local items ONLY if they are NOT in the CSV (User created items).
+            // This ensures CSV updates overwrite local cache for system items.
+            localData.forEach(item => {
+                if (!mergedMap.has(item.id)) {
+                    mergedMap.set(item.id, item);
+                }
+            });
+
+            const finalData = Array.from(mergedMap.values());
+            localStorage.setItem('foodDatabase', JSON.stringify(finalData));
+            console.log(`Synced: ${csvData.length} from CSV. Total items: ${finalData.length}`);
+            return finalData;
         }
 
         function saveFood(newItem) {
@@ -348,22 +383,22 @@
         function renderRecipeCards(recipeItems) {
             const grid = document.getElementById('recipeGrid');
             grid.innerHTML = '';
-            
+
             // Calculate Stats
             let p = 0, c = 0, v = 0, f = 0;
 
             recipeItems.forEach((item, index) => {
                 // Update stats logic simplified for demo
-                if(item.category === 'Protein') p += item.amount; // Very rough sum for demo
-                if(item.category === 'Carb') c += item.amount;
-                if(item.category === 'Veg') v++;
-                if(item.category === 'Fat') f++;
+                if (item.category === 'Protein') p += item.amount; // Very rough sum for demo
+                if (item.category === 'Carb') c += item.amount;
+                if (item.category === 'Veg') v++;
+                if (item.category === 'Fat') f++;
 
                 const delay = index * 100;
                 const card = document.createElement('div');
                 card.className = `glass-card rounded-xl p-5 shadow-sm hover:shadow-md transition-all duration-300 fade-in category-${item.category} border-l-4`;
                 card.style.animationDelay = `${delay}ms`;
-                
+
                 card.innerHTML = `
                     <div class="flex justify-between items-start mb-2">
                         <span class="text-xs font-bold px-2 py-1 rounded bg-slate-100 text-slate-600 uppercase tracking-wider">${CATEGORIES[item.category].label}</span>
@@ -401,7 +436,7 @@
             const foods = getAllFoods();
             const tbody = document.getElementById('foodTableBody');
             document.getElementById('dbCount').textContent = `${foods.length} Items`;
-            
+
             tbody.innerHTML = foods.map(item => `
                 <tr class="bg-white border-b hover:bg-slate-50 transition-colors">
                     <td class="px-6 py-4 font-medium text-slate-900">${item.name}</td>
@@ -421,8 +456,8 @@
         }
 
         // --- 5. Event Handlers ---
-        document.addEventListener('DOMContentLoaded', () => {
-            initStorage();
+        document.addEventListener('DOMContentLoaded', async () => {
+            await initStorage();
 
             const generateBtn = document.getElementById('generateBtn');
             const settingsBtn = document.getElementById('settingsBtn');
@@ -479,8 +514,8 @@
         });
 
         // Global handler for delete
-        window.handleDelete = function(id) {
-            if(confirm('确定要删除这个食材吗？')) {
+        window.handleDelete = function (id) {
+            if (confirm('确定要删除这个食材吗？')) {
                 deleteFood(id);
                 renderTable();
             }
@@ -488,4 +523,5 @@
 
     </script>
 </body>
+
 </html>

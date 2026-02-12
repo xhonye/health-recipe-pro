@@ -32,3 +32,12 @@
 
 * **蛋白质**：`[ {id: 1, name: "鸡胸肉", category: "Protein", nutrient: "优质蛋白", amount: 20, unit: "g", nrv: 40}, ... ]`
 * （执行端必须根据规定补全完整的 80 项数据集）
+
+---
+
+## 5. 核心逻辑
+
+### Data Strategy
+* **数据源**：核心数据源为 `data/foods.csv`。
+* **加载机制**：网页运行时通过 `fetch` API 异步读取该 CSV 文件。
+* **解析逻辑**：将 CSV 文本解析为 JSON 对象数组（需处理 `amount` 和 `nrv` 的数值转换），并存入 `localStorage` 作为初始数据。
