@@ -1,80 +1,98 @@
-# Implementation Plan: Advanced Health Recipe Expert
+# 实施计划：高级健康食谱专家
 
-This plan outlines the development of a single-page web application for generating health recipes and managing food data, based on the requirements in `.spec/spec.md`.
+本计划概述了根据 `.spec/spec.md` 和 `.spec/constitution.md` 的要求，开发单文件网页应用“高级健康食谱专家”的流程。
 
-## 1. File Structure
+## 1. 文件结构
 
-Due to the single-file requirement (`index.html`), the application will be structured as follows within the directory:
+由于项目要求为单文件应用 (`index.html`)，所有代码将包含在一个文件中，结构如下：
 
-- `index.html`: The only source file.
-    - **`<head>`**: Contains `<style>` block for CSS (Reset, Layout, Components).
+- `index.html`: 唯一的源代码文件。
+    - **`<head>`**:
+        - 引入 Tailwind CSS (CDN)。
+        - 包含 `<style>` 块，用于处理 Tailwind 无法覆盖的自定义样式（如 Glassmorphism 效果）。
     - **`<body>`**:
-        - **Header**: Title and "Generate/Refresh" button.
-        - **Main Display Area**: Container for the generated recipe cards.
-        - **Floating Action Button (FAB)**: Bottom-right gear icon to open the Data Management Panel.
-        - **Modal/Overlay**: Hidden by default. Contains the "Data Management" table and "Add New Item" form.
-    - **`<script>`**: Embedded at the end of `<body>`.
-        - **Constants**: `seedData` (80 items).
-        - **State Management**: `localStorage` wrapper functions.
-        - **Core Logic**: Recipe generator algorithm.
-        - **UI Rendering**: Functions to create DOM elements for cards and table rows.
-        - **Event Listeners**: Button clicks, form submissions.
+        - **头部Header**: 应用标题和“生成/刷新”按钮。
+        - **主展示区**: 用于展示生成的食谱卡片（Grid 布局）。
+        - **悬浮按钮 (FAB)**: 右下角齿轮图标，用于打开数据管理面板。
+        - **管理面板 (Modal)**: 默认隐藏的全屏遮罩层。
+            - 包含数据表格（展示所有食材）。
+            - 包含“添加新食材”的表单。
+    - **`<script>`**: 位于 `<body>` 底部。
+        - **常量定义**: `seedData` (预置的80种食材数据)。
+        - **状态管理**: 封装 `localStorage` 的读写操作。
+        - **核心逻辑**: 食谱生成算法。
+        - **UI 渲染**: 动态生成卡片和表格行的函数。
+        - **事件监听**: 处理点击、表单提交等交互。
 
-## 2. Key Function Logic
+## 2. 关键函数逻辑
 
-### Data Persistence (`initStorage`)
-- **On Load**: Check `localStorage.getItem('foodDatabase')`.
-- **If Empty**:
-    - Initialize `foodDatabase` with a hardcoded `seedData` array containing 80 items (categorized: Protein, Carb, Vegetable, Fat).
-    - Save to `localStorage`.
-- **If Exists**: Load data from `localStorage`.
+### 数据持久化 (`FoodModel`)
+- **初始化 (`init`)**:
+    - 检查 `localStorage.getItem('foodDatabase')`。
+    - **若为空**: 使用硬编码的 `seedData`（包含4大类各20种，共80种食材）初始化，并存入 `localStorage`。
+    - **若存在**: 从 `localStorage` 读取数据。
+- **数据结构**:
+    ```json
+    {
+      "id": "uuid/timestamp",
+      "name": "食材名",
+      "category": "Protein|Carb|Veg|Fat",
+      "nutrient": "核心营养素",
+      "amount": 100,
+      "unit": "g",
+      "nrv": 20
+    }
+    ```
 
-### Recipe Generation (`generateRecipe`)
-- **Goal**: Create a meal plan with:
-    - 3 Proteins
-    - 2 Carbs
-    - 3 Vegetables
-    - 2 Fats
-- **Algorithm**:
-    1.  Retrieve current data from `localStorage`.
-    2.  Filter data into arrays by `category`.
-    3.  Helper function `getRandomUnique(array, count)`:
-        -   Shuffle array or pick random indices.
-        -   Ensure no duplicates within the selection.
-    4.  Combine selections into a single result list.
-    5.  Pass result to `renderCards(items)`.
+### 食谱生成器 (`RecipeGenerator`)
+- **目标**: 生成一份包含 10 种食材的食谱。
+    - 3 种 蛋白质 (Protein)
+    - 2 种 碳水 (Carb)
+    - 3 种 蔬菜 (Veg)
+    - 2 种 油脂 (Fat)
+- **算法**:
+    1.  从 `localStorage` 获取最新数据。
+    2.  按类别过滤数据。
+    3.  即时随机抽取算法 `sampleSize(array, n)`:
+        -   对数组进行洗牌 (Fisher-Yates shuffle) 或随机索引抽取。
+        -   选取前 `n` 个不重复的项。
+    4.  组合所有类别的抽取结果。
+    5.  调用 `renderCards` 展示结果。
 
-### Data Management
-- **View**: Render table of all items in a Modal.
-    -   Columns: Name, Category, Nutrient, Amount, NRV, Actions (Delete).
-- **Add**: Form with fields (`name`, `category`, `nutrient`, `amount`, `unit`, `nrv`).
-    -   **Validation**: All fields required. `amount` and `nrv` must be numbers.
-    -   **Save**: Push to `foodDatabase` array -> `localStorage.setItem` -> Refresh UI and Table.
+### 数据管理
+- **管理面板**: 点击 FAB 按钮打开 Modal。
+- **查看**: 渲染表格，列出所有食材的详细信息。
+- **新增**:
+    -   表单字段：名称、分类、营养素、含量、单位、NRV。
+    -   验证：所有字段必填，数字字段需为有效数值。
+    -   保存：添加到 `foodDatabase` 数组 -> 更新 `localStorage` -> 刷新表格 -> 刷新主视图（可选）。
 
-## 3. Implementation Steps
+## 3. 实施步骤
 
-### Phase 1: Skeleton & Styling
-1.  **HTML Structure**: Create semantic HTML5 layout with placeholders.
-2.  **CSS Styling**:
-    -   Use a modern, "premium" color palette (e.g., deep greens, soft creams, vibrant accents).
-    -   Glassmorphism for the cards and modal.
-    -   Responsive grid for recipe display (mobile-first).
+### 第一阶段：骨架与样式 (Skeleton & Styling)
+1.  **创建文件**: 建立 `index.html`，引入 Tailwind CSS。
+2.  **UI 布局**:
+    -   构建 Header、Main Grid、FAB 按钮的 HTML 结构。
+    -   使用 Tailwind 类实现响应式布局和美观的卡片样式（毛玻璃效果）。
+    -   构建隐藏的 Modal 结构用于数据管理。
 
-### Phase 2: Data Layer
-3.  **Seed Data Creation**: Generate the JSON array of 80 food items (20 Protein, 20 Carb, 20 Vegetable, 20 Fat) with realistic Chinese data.
-4.  **Storage Logic**: Implement `loadData`, `saveData`, and `initializeData` functions.
+### 第二阶段：数据层 (Data Layer)
+3.  **种子数据**: 生成 80 条符合中国饮食习惯的 JSON 数据（如：鸡胸肉、糙米、西蓝花、橄榄油等）。
+4.  **存储逻辑**: 实现 `initDB()`，`getAllFoods()`，`addFood()` 等函数。
 
-### Phase 3: Core Logic (Generator)
-5.  **Generator Function**: Implement the randomization logic with specific counts (3P, 2C, 3V, 2F).
-6.  **Card Rendering**: Function to generate HTML for recipe cards dynamically, displaying Name, Nutrient, and NRV.
+### 第三阶段：核心逻辑 (Core Logic)
+5.  **生成算法**: 实现按比例（3:2:3:2）随机抽取食材的逻辑。
+6.  **卡片渲染**: 编写 `renderRecipe(foods)` 函数，将数据转换为 DOM 元素插入主视图。
 
-### Phase 4: Data Management UI
-7.  **Management Panel**: Implement the modal open/close logic.
-8.  **Form & Table**: Build the table rendering and the "Add Item" form handling.
-9.  **Validation**: Ensure inputs are valid before saving.
+### 第四阶段：管理交互 (Management UI)
+7.  **交互逻辑**: 实现 Modal 的打开/关闭。
+8.  **列表与表单**:
+    -   实现 `renderTable()` 将数据展示在管理面板。
+    -   实现表单提交处理，包含数据验证和保存逻辑。
 
-### Phase 5: Verification
-10. **Testing**:
-    -   Verify initial load populates 80 items in `localStorage`.
-    -   Verify "Generate" button creates valid sets of 10 items (3+2+3+2).
-    -   Verify adding a custom item works and appears in future generations.
+### 第五阶段：测试与验证 (Verification)
+9.  **测试**:
+    -   **首次加载**: 确认 LocalStorage 被写入 80 条初始数据。
+    -   **生成功能**: 点击按钮，确认生成 10 个卡片，且分类比例正确。
+    -   **新增功能**: 添加一条测试数据（如“测试牛肉”），确认保存并在列表中可见。
+    -   **持久化**: 刷新页面，确认新增的数据依然存在。
